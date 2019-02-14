@@ -1,6 +1,5 @@
 import { postgresDB } from "databases/postgres-db";
 import * as bodyParser from 'koa-bodyparser';
-import { testRouter } from "./routes/test-routes";
 import { restRouter } from "./routes/rest-routes";
 
 const app = require("./app");
@@ -12,8 +11,6 @@ const bootstrap = async () => {
   // passed to the server from the client requests
   app.use(bodyParser());
 
-  //Tell our application to use the router we have created to handle routes related to testing
-  app.use(testRouter.routes(), testRouter.allowedMethods());
   //Tell our application to use the router we have created to handle routes for our rest api
   app.use(restRouter.routes(), restRouter.allowedMethods());
 

@@ -4,5 +4,6 @@ the tables we want to include when we connect to Postgres. Its overkill to
 keep this info in a seperate file when we only have one table but it will be
 really neat and clean once our app grows to have tens and hundreds of tables
 */
-import { Draw } from 'models/draw';
-export const postgresTables =[Draw,];
+import { Draw } from "../models/draw";
+import { Assignment } from "../models/assignment";
+export const postgresTables = [Draw, Assignment];
