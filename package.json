@@ -1,0 +1,36 @@
+{
+  "name": "mele-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/euzebe/mele-server.git"
+  },
+  "author": "euZèbe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/euzebe/mele-server/issues"
+  },
+  "homepage": "https://github.com/euzebe/mele-server#readme",
+  "dependencies": {
+    "class-validator": "^0.9.1",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "pg": "^7.8.0",
+    "ts-node": "^7.0.0",
+    "tsconfig-paths": "^3.8.0",
+    "typeorm": "^0.2.13"
+  },
+  "devDependencies": {
+    "cypress": "^3.1.5",
+    "nodemon": "^1.18.10",
+    "prettier": "^1.16.4",
+    "typescript": "^3.3.3"
+  }
+}
