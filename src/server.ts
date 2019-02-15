@@ -1,9 +1,12 @@
 import { postgresDB } from "databases/postgres-db";
+import * as cors from 'kcors';
 import * as bodyParser from 'koa-bodyparser';
 import { restRouter } from "./routes/rest-routes";
 
 const app = require("./app");
 const bootstrap = async () => {
+  app.use(cors());
+
   // Initialize the database
   await postgresDB();
 
