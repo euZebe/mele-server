@@ -23,7 +23,7 @@ export default class DrawController {
     // get a draw repository to perform operations with draw
     const drawRepository: Repository<Draw> = getManager().getRepository(Draw);
     // load all draws
-    const draws: Draw[] = await drawRepository.find();
+    const draws: Draw[] = await drawRepository.find({relations: ['assignments']});
     // return OK status code and loaded draws array
     ctx.status = 200;
     ctx.body = draws;
@@ -33,7 +33,7 @@ export default class DrawController {
     // get a draw repository to perform operations with draw
     const drawRepository: Repository<Draw> = getManager().getRepository(Draw);
     // load all draws
-    const draw: Draw = await drawRepository.findOne(ctx.params.id);
+    const draw: Draw = await drawRepository.findOne(ctx.params.id, {relations: ['assignments']});
     if (draw) {
       // return OK status code and loaded draw
       ctx.status = 200;

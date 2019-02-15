@@ -21,7 +21,6 @@ export class Draw {
   @IsDefined()
   @OneToMany(() => Assignment, assignment => assignment.draw, {
     cascade: true,
-    eager: true
   })
   assignments: Assignment[];
 
