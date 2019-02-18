@@ -2,15 +2,18 @@ import { BaseContext } from "koa";
 import { getManager, Repository } from "typeorm";
 import { validate, ValidationError } from "class-validator";
 import { Draw } from "models/draw";
+import { Assignment } from "../models/assignment";
 
-function generateDraw(participantNames: any, name: any) {
-  const assignments = participantNames.map((p, index) => ({
-    from: p,
-    to:
-        index === 0
-            ? participantNames[participantNames.length - 1]
-            : participantNames[index - 1]
-  }));
+function generateDraw(participantNames: string[], name: string) {
+  const assignments = participantNames.map((p, index) => {
+    const assignment = new Assignment();
+    assignment.from = p;
+    assignment.to =
+      index === 0
+        ? participantNames[participantNames.length - 1]
+        : participantNames[index - 1];
+    return assignment;
+  });
 
   const drawToBeSaved = new Draw();
   drawToBeSaved.name = name;
@@ -23,7 +26,9 @@ export default class DrawController {
     // get a draw repository to perform operations with draw
     const drawRepository: Repository<Draw> = getManager().getRepository(Draw);
     // load all draws
-    const draws: Draw[] = await drawRepository.find({relations: ['assignments']});
+    const draws: Draw[] = await drawRepository.find({
+      relations: ["assignments"]
+    });
     // return OK status code and loaded draws array
     ctx.status = 200;
     ctx.body = draws;
@@ -33,14 +38,23 @@ export default class DrawController {
     // get a draw repository to perform operations with draw
     const drawRepository: Repository<Draw> = getManager().getRepository(Draw);
     // load all draws
-    const draw: Draw = await drawRepository.findOne(ctx.params.id, {relations: ['assignments']});
-    if (draw) {
-      // return OK status code and loaded draw
-      ctx.status = 200;
-      ctx.body = draw;
-    } else {
+
+    try {
+      const draw: Draw = await drawRepository.findOne(ctx.params.id, {
+        relations: ["assignments"]
+      });
+      if (draw) {
+        // return OK status code and loaded draw
+        ctx.status = 200;
+        ctx.body = draw;
+      } else {
+        ctx.status = 400;
+        ctx.body = `no draw found for the given ID: ${ctx.params.id}`;
+      }
+    } catch (e) {
       ctx.status = 400;
-      ctx.body = `no draw found for the given ID: ${ctx.params.id}`;
+      ctx.body = e.message;
+      // TODO: log error in file logger
     }
   }
 
@@ -64,7 +78,7 @@ export default class DrawController {
 
       // return CREATED status code and updated draw
       ctx.status = 201;
-      ctx.body = draw ;
+      ctx.body = draw;
     }
   }
 }
